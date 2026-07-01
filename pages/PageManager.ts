@@ -1,11 +1,12 @@
+import { Page } from "@playwright/test";
 import Homepage from "./Homepage";
 import LoginPage from "./LoginPage";
 
 export default class PageManager {
-  page: any;
-  homepage: any;
-  loginpage: any;
-  constructor(page: any) {
+  page: Page;
+  homepage: Homepage;
+  loginpage: LoginPage;
+  constructor(page: Page) {
     this.page = page;
     this.homepage = new Homepage(page);
     this.loginpage = new LoginPage(page);

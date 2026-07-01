@@ -1,10 +1,10 @@
-import { expect } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 import CommonActions from "../utils/CommonActions";
 
 export default class LoginPage {
-  page: any;
-  actions: any;
-  constructor(page: any) {
+  page: Page;
+  actions: CommonActions;
+  constructor(page: Page) {
     this.page = page;
     this.actions = new CommonActions(page);
   }

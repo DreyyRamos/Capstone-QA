@@ -1,11 +1,11 @@
-import { expect } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 import CommonActions from "../utils/CommonActions";
 
 export default class Homepage {
-  page: any;
-  actions: any;
+  page: Page;
+  actions: CommonActions;
 
-  constructor(page: any) {
+  constructor(page: Page) {
     this.page = page;
     this.actions = new CommonActions(page);
   }
@@ -20,5 +20,14 @@ export default class Homepage {
     await this.actions.click(
       '[data-slot="button"]:text("Browse Publications")',
     );
+  }
+
+  async getBadge() {
+    return await this.actions.getText("span[data-slot='badge']");
+  }
+
+  async getRoleBadge(role: string) {
+    const rl = await this.getBadge();
+    expect(rl).toBe(role);
   }
 }

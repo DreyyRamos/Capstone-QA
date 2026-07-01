@@ -1,12 +1,13 @@
-export default class CommonActions {
-  page: any;
+import { Page } from "@playwright/test";
 
-  constructor(page: any) {
+export default class CommonActions {
+  page: Page;
+
+  constructor(page: Page) {
     this.page = page;
   }
 
   async navigate(url: string) {
-    await this.page.pause();
     await this.page.goto(url);
   }
 
