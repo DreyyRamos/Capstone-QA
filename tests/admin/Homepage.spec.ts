@@ -1,16 +1,36 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, APIRequestContext } from "@playwright/test";
 import PageManager from "../../pages/PageManager";
+import { getAuthApiContext } from "../../utils/getAuthApiContext";
 
 test.use({ storageState: "playwright/.auth/admin.json" });
 
+let apiContext: APIRequestContext;
 let pm: PageManager;
 
 test.describe("Testing for admin", async () => {
-  test.beforeEach(async ({ page }) => {
+  let postId: string;
+
+  test.beforeAll(async () => {
+    apiContext = await getAuthApiContext(
+      process.env.ADMIN_EMAIL!,
+      process.env.ADMIN_PASSWORD!,
+    );
+  });
+  test.beforeEach(async ({ page, request }) => {
     pm = new PageManager(page);
+    const newPost = await request.post("/api/publications/create", {
+      data: {
+        title: "THis is test from playwright",
+        excerpt: "This is test excerpt",
+        content: "This is test content",
+      },
+    });
+    const postData = await newPost.json();
+    postId = postData.pubId;
   });
 
-  test.afterEach(async ({ page }) => {
+  test.afterEach(async ({ page, request }) => {
+    await request.delete(`/api/publications/${postId}`);
     page.close();
   });
 
@@ -23,4 +43,9 @@ test.describe("Testing for admin", async () => {
     await pm.homepage.navigate();
     await pm.homepage.getRoleBadge("Admin");
   });
+
+  // WIP
+  // test("Test leaving a comment as admin", async () => {
+
+  // })
 });
