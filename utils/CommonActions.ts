@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page, Locator } from "@playwright/test";
 
 export default class CommonActions {
   page: Page;
@@ -11,15 +11,47 @@ export default class CommonActions {
     await this.page.goto(url);
   }
 
-  async click(selector: string) {
-    await this.page.click(selector);
+  getButton(name: string): Locator {
+    return this.page.getByRole("button", { name });
   }
 
-  async fill(selector: string, text: string) {
-    await this.page.fill(selector, text);
+  async clickButton(name: string) {
+    await this.getButton(name).click();
   }
 
-  async getText(selector: string) {
-    return await this.page.textContent(selector);
+  getLink(name: string): Locator {
+    return this.page.getByRole("link", { name });
+  }
+
+  async clickLink(name: string) {
+    await this.getLink(name).click();
+  }
+
+  getTextField(label: string): Locator {
+    return this.page.getByLabel(label);
+  }
+
+  async fillTextField(name: string, text: string) {
+    await this.getTextField(name).fill(text);
+  }
+
+  async fillByTestId(testId: string, text: string) {
+    await this.page.getByTestId(testId).fill(text);
+  }
+
+  getByTestId(testId: string): Locator {
+    return this.page.getByTestId(testId);
+  }
+
+  async getTextByTestId(testId: string) {
+    return await this.getByTestId(testId).textContent();
+  }
+
+  async getText(text: string) {
+    return await this.page.getByText(text).textContent();
+  }
+
+  locator(selector: string): Locator {
+    return this.page.locator(selector);
   }
 }

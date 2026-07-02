@@ -16,13 +16,13 @@ export default class LoginPage {
   }
 
   async login(email: string, password: string) {
-    await this.actions.fill("#email", email);
-    await this.actions.fill("#password", password);
-    await this.actions.click('button[type="submit"]');
+    await this.actions.fillTextField("email", email);
+    await this.actions.fillTextField("password", password);
+    await this.actions.clickButton('button[type="submit"]');
   }
 
   async getErrorMessage() {
-    return await this.actions.getText("text=Invalid Credentials");
+    return await this.actions.getText("Invalid Credentials");
   }
 
   async assertErrorMessage(errorMessage: string) {

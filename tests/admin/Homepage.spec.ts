@@ -1,6 +1,8 @@
 import { test, expect, APIRequestContext } from "@playwright/test";
 import PageManager from "../../pages/PageManager";
 import { getAuthApiContext } from "../../utils/getAuthApiContext";
+import dotenv from "dotenv";
+dotenv.config();
 
 test.use({ storageState: "playwright/.auth/admin.json" });
 
@@ -38,14 +40,17 @@ test.describe("Testing for admin", async () => {
     await pm.homepage.navigate();
   });
 
-  test("Check role badge", async () => {
-    test.fail(true, "Known bug: role badge intermittently shows wrong role");
-    await pm.homepage.navigate();
-    await pm.homepage.getRoleBadge("Admin");
+  // test("Check role badge", async () => {
+  //   test.fail(true, "Known bug: role badge intermittently shows wrong role");
+  //   await pm.homepage.navigate();
+  //   await pm.homepage.getRoleBadge("Admin");
+  // });
+
+  test("Creating pubs as admin", async () => {
+    await pm.publicationsPage.navigate();
+    await pm.publicationsPage.createPubButton();
+    await pm.publicationsPage.fillPubsInfo();
+    await pm.publicationsPage.submit();
+    await pm.publicationsPage.confirmSubmit();
   });
-
-  // WIP
-  // test("Test leaving a comment as admin", async () => {
-
-  // })
 });

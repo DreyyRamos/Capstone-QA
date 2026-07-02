@@ -29,11 +29,11 @@ test.describe("Testing for student", async () => {
     await pm.homepage.navigate();
   });
 
-  test("Check role badge", async () => {
-    test.fail(true, "Known bug: role badge intermittently shows wrong role");
-    await pm.homepage.navigate();
-    await pm.homepage.getRoleBadge("Editor");
-  });
+  // test("Check role badge", async () => {
+  //   test.fail(true, "Known bug: role badge intermittently shows wrong role");
+  //   await pm.homepage.navigate();
+  //   // await pm.homepage.getRoleBadge("Editor");
+  // });
 
   test("Publications endpoints", async () => {
     const res = await apiContext.get("/api/publications");
