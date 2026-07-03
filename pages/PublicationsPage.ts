@@ -1,41 +1,43 @@
-import { test, expect, Page } from "@playwright/test";
-import CommonActions from "../utils/CommonActions";
+import { Page, expect, Locator } from "@playwright/test";
+import BasePage from "./BasePage";
 
-export default class PublicationsPage {
-  page: Page;
-  action: CommonActions;
+export default class PublicationsPage extends BasePage {
+  readonly createPubBtn: Locator;
+  readonly titleField: Locator;
+  readonly excerptField: Locator;
+  readonly contentEditor: Locator;
+  readonly publishBtn: Locator;
+  readonly submitPublicationBtn: Locator;
 
   constructor(page: Page) {
-    this.page = page;
-    this.action = new CommonActions(page);
+    super(page);
+    this.createPubBtn = page.getByRole("button", {
+      name: "Create Publication",
+    });
+    this.titleField = page.getByLabel("title");
+    this.excerptField = page.getByLabel("excerpt");
+    this.contentEditor = page.locator(".tiptap");
+    this.publishBtn = page.getByRole("button", { name: "Publish" });
+    this.submitPublicationBtn = page.getByRole("button", {
+      name: "Submit Publication",
+    });
   }
 
-  async navigate() {
-    await this.action.navigate("/publications/create");
-  }
-
-  async clickTitle(title: string) {
-    const link = await this.action.getLink(title);
-    return await link.click();
-  }
-
-  async createPubButton() {
-    await this.action.getLink("Create Publication");
+  async goto() {
+    await this.navigate("/publications/create");
   }
 
   async fillPubsInfo() {
-    await this.action.fillTextField("title", "My test pub from playwright");
-    await this.action.fillTextField("excerpt", "My test pub from playwright");
-    await this.action
-      .locator(".tiptap.ProseMirror")
-      .fill("My test pub from playwright");
+    await this.titleField.fill("Test Playwright 2");
+    await this.excerptField.fill("Test excerpt playwright 2");
+    await this.contentEditor.fill("Test body playwright 2");
   }
 
   async submit() {
-    await this.action.clickButton("Publish");
+    await this.publishBtn.click();
   }
 
   async confirmSubmit() {
-    await this.action.clickButton("Submit Publication");
+    await this.submitPublicationBtn.click();
   }
 }

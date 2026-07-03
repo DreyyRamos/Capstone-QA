@@ -1,29 +1,22 @@
-import { expect, Page } from "@playwright/test";
-import CommonActions from "../utils/CommonActions";
+import { expect, Locator, Page } from "@playwright/test";
+import BasePage from "./BasePage";
 
-export default class Homepage {
-  page: Page;
-  action: CommonActions;
+export default class Homepage extends BasePage {
+  readonly browsePublicationsBtn: Locator;
 
   constructor(page: Page) {
-    this.page = page;
-    this.action = new CommonActions(page);
+    super(page);
+
+    this.browsePublicationsBtn = page.getByRole("button", {
+      name: "Browse Publications",
+    });
   }
 
-  async navigate() {
-    await this.action.navigate("/");
+  async goto() {
+    await this.navigate("/");
   }
 
-  async browsePublications() {
-    await this.action.clickButton("Browse Publications");
+  async browsePubs() {
+    await this.browsePublicationsBtn.click();
   }
-
-  // async getBadge() {
-  //   return await this.action.getText("span[data-slot='badge']");
-  // }
-
-  // async getRoleBadge(role: string) {
-  //   const rl = await this.getBadge();
-  //   expect(rl).toBe(role);
-  // }
 }

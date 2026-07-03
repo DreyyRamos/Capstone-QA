@@ -1,32 +1,34 @@
-import { expect, Page } from "@playwright/test";
-import CommonActions from "../utils/CommonActions";
+import { expect, Page, Locator } from "@playwright/test";
+import BasePage from "./BasePage";
 
-export default class LoginPage {
-  page: Page;
-  actions: CommonActions;
+export default class LoginPage extends BasePage {
+  readonly emailField: Locator;
+  readonly passwordField: Locator;
+  readonly signInBtn: Locator;
+
   constructor(page: Page) {
-    this.page = page;
-    this.actions = new CommonActions(page);
+    super(page);
+    this.emailField = page.getByRole("textbox", { name: "Email" });
+    this.passwordField = page.getByRole("textbox", { name: "Password" });
+    this.signInBtn = page.getByRole("button", { name: "Sign In" });
   }
 
-  async navigate() {
-    await this.actions.navigate(
-      "https://capstone-project-ten-kappa.vercel.app/login",
-    );
+  async goto() {
+    await this.navigate("/login");
   }
 
   async login(email: string, password: string) {
-    await this.actions.fillTextField("email", email);
-    await this.actions.fillTextField("password", password);
-    await this.actions.clickButton('button[type="submit"]');
+    await this.emailField.fill(email);
+    await this.passwordField.fill(password);
+    await this.signInBtn.click();
   }
 
-  async getErrorMessage() {
-    return await this.actions.getText("Invalid Credentials");
-  }
+  // async getErrorMessage() {
+  //   return await this.page.getByText('Invalid credentials');
+  // }
 
-  async assertErrorMessage(errorMessage: string) {
-    const message = await this.getErrorMessage();
-    expect(message).toContain(errorMessage);
+  async assertErrorMessage() {
+    const message = await this.page.getByText("Invalid credentials");
+    expect(message).toBe("Invalid credentials");
   }
 }

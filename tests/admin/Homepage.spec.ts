@@ -37,18 +37,11 @@ test.describe("Testing for admin", async () => {
   });
 
   test("Navigate after logging in", async () => {
-    await pm.homepage.navigate();
+    await pm.homepage.goto();
   });
 
-  // test("Check role badge", async () => {
-  //   test.fail(true, "Known bug: role badge intermittently shows wrong role");
-  //   await pm.homepage.navigate();
-  //   await pm.homepage.getRoleBadge("Admin");
-  // });
-
   test("Creating pubs as admin", async () => {
-    await pm.publicationsPage.navigate();
-    await pm.publicationsPage.createPubButton();
+    await pm.publicationsPage.goto();
     await pm.publicationsPage.fillPubsInfo();
     await pm.publicationsPage.submit();
     await pm.publicationsPage.confirmSubmit();
