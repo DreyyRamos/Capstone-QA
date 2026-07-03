@@ -9,7 +9,7 @@ test.use({ storageState: "playwright/.auth/admin.json" });
 let apiContext: APIRequestContext;
 let pm: PageManager;
 
-test.describe("Testing for admin", async () => {
+test.describe("API testing for publications", async () => {
   let postId: string;
 
   test.beforeAll(async () => {
@@ -36,14 +36,9 @@ test.describe("Testing for admin", async () => {
     page.close();
   });
 
-  test("Navigate after logging in", async () => {
-    await pm.homepage.goto();
-  });
-
-  test("Creating pubs as admin", async () => {
-    await pm.publicationsPage.goto();
-    await pm.publicationsPage.fillPubsInfo();
-    await pm.publicationsPage.submit();
-    await pm.publicationsPage.confirmSubmit();
+  test("Publications endpoints", async () => {
+    const res = await apiContext.get("/api/publications");
+    const data = await res.json();
+    // console.log(data);
   });
 });
