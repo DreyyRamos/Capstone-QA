@@ -25,7 +25,7 @@ test.describe("Testing for admin", async () => {
     await pm.publicationsPage.confirmSubmit();
   });
 
-  test.only("Change user role", async () => {
+  test("Change user role", async () => {
     await pm.usersPage.goto();
     await pm.usersPage.changeUserRole("Editor");
   });
