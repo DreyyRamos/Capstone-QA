@@ -23,10 +23,6 @@ export default class LoginPage extends BasePage {
     await this.signInBtn.click();
   }
 
-  // async getErrorMessage() {
-  //   return await this.page.getByText('Invalid credentials');
-  // }
-
   async assertErrorMessage() {
     const message = await this.page.getByText("Invalid credentials");
     expect(message).toBe("Invalid credentials");
