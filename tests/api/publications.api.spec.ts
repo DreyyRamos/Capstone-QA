@@ -1,4 +1,4 @@
-import { test, expect, APIRequestContext } from "@playwright/test";
+import { test, APIRequestContext } from "@playwright/test";
 import PageManager from "../../pages/PageManager";
 import { getAuthApiContext } from "../../utils/getAuthApiContext";
 import dotenv from "dotenv";

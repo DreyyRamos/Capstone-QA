@@ -9,6 +9,9 @@ export default class PublicationsPage extends BasePage {
   readonly publishBtn: Locator;
   readonly submitPublicationBtn: Locator;
   readonly likeBtn: Locator;
+  readonly commentTxtbox: Locator;
+  readonly reportBtn: Locator;
+  readonly likeCommentBtn: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -23,6 +26,13 @@ export default class PublicationsPage extends BasePage {
       name: "Submit Publication",
     });
     this.likeBtn = page.getByTestId("publication-like-button-button-1");
+    this.commentTxtbox = page.getByRole("textbox", {
+      name: "Share your thoughts about",
+    });
+    this.reportBtn = page.getByTestId("page-button-2");
+    this.likeCommentBtn = page
+      .getByTestId("publication-comment-like-button-button-1")
+      .first();
   }
 
   async gotoCreate() {
@@ -54,6 +64,25 @@ export default class PublicationsPage extends BasePage {
 
   async likePubsNoUser() {
     await this.likeBtn.click();
+    await this.noAccountMessage();
+    await this.noAccountModalClose();
+  }
+
+  async commentPubsNoUser() {
+    await this.commentTxtbox.fill("Test comment");
+    await this.page.getByTestId("page-button-3").click();
+    await this.noAccountMessage();
+    await this.noAccountModalClose();
+  }
+
+  async reportPubsNoUser() {
+    await this.reportBtn.click();
+    await this.noAccountMessage();
+    await this.noAccountModalClose();
+  }
+
+  async likeCommentNoUser() {
+    await this.likeCommentBtn.click();
     await this.noAccountMessage();
   }
 }
