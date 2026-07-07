@@ -5,6 +5,7 @@ import PublicationsPage from "./PublicationsPage";
 import UsersPage from "./UsersPage";
 import RegistrationPage from "./RegistrationPage";
 import AdmissionsPage from "./AdmissionsPage";
+import ForumPage from "./ForumPage";
 
 export default class PageManager {
   page: Page;
@@ -14,6 +15,7 @@ export default class PageManager {
   usersPage: UsersPage;
   registrationPage: RegistrationPage;
   admissionsPage: AdmissionsPage;
+  forumPage: ForumPage;
   constructor(page: Page) {
     this.page = page;
     this.homepage = new Homepage(page);
@@ -22,5 +24,6 @@ export default class PageManager {
     this.usersPage = new UsersPage(page);
     this.registrationPage = new RegistrationPage(page);
     this.admissionsPage = new AdmissionsPage(page);
+    this.forumPage = new ForumPage(page);
   }
 }

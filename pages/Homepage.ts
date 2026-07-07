@@ -7,13 +7,17 @@ export default class Homepage extends BasePage {
   constructor(page: Page) {
     super(page);
 
-    this.browsePublicationsBtn = page.getByRole("button", {
-      name: "Browse Publications",
+    this.browsePublicationsBtn = page.getByRole("link", {
+      name: "Publications",
     });
   }
 
   async goto() {
     await this.navigate("/");
+  }
+
+  async createPubsNoAccount() {
+    await this.page.getByTestId("page-a-1").click();
   }
 
   async browsePubs() {

@@ -19,10 +19,13 @@ test.describe("Testing for admin", async () => {
   });
 
   test("Creating pubs as admin", async () => {
-    await pm.publicationsPage.goto();
+    await pm.publicationsPage.gotoCreate();
     await pm.publicationsPage.fillPubsInfo();
     await pm.publicationsPage.submit();
     await pm.publicationsPage.confirmSubmit();
+    await pm.publicationsPage.assertMessage(
+      "Publication created and is pending for review!",
+    );
   });
 
   test("Change user role", async () => {

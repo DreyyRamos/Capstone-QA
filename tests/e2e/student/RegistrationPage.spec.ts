@@ -18,5 +18,6 @@ test.describe("Registration flow", async () => {
       "to test 1",
       "newUserToTest1@email.com",
     );
+    // await pm.registrationPage.assertMessage("User registered successfully!");
   });
 });

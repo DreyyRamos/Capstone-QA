@@ -8,6 +8,7 @@ export default class PublicationsPage extends BasePage {
   readonly contentEditor: Locator;
   readonly publishBtn: Locator;
   readonly submitPublicationBtn: Locator;
+  readonly likeBtn: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -21,9 +22,10 @@ export default class PublicationsPage extends BasePage {
     this.submitPublicationBtn = page.getByRole("button", {
       name: "Submit Publication",
     });
+    this.likeBtn = page.getByTestId("publication-like-button-button-1");
   }
 
-  async goto() {
+  async gotoCreate() {
     await this.navigate("/publications/create");
   }
 
@@ -39,5 +41,19 @@ export default class PublicationsPage extends BasePage {
 
   async confirmSubmit() {
     await this.submitPublicationBtn.click();
+  }
+
+  async assertMessage(msg: string) {
+    await expect(this.page.locator("[data-sonner-toast]")).toContainText(msg);
+  }
+
+  async gotoPubs() {
+    await this.navigate("/publications");
+    await this.page.getByRole("link", { name: "The Secret Syllabus:" }).click();
+  }
+
+  async likePubsNoUser() {
+    await this.likeBtn.click();
+    await this.noAccountMessage();
   }
 }
