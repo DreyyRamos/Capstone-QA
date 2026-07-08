@@ -7,9 +7,6 @@ test.describe("Registration flow", async () => {
   test.beforeEach(async ({ page }) => {
     pm = new PageManager(page);
   });
-  test.afterEach(async ({ page }) => {
-    page.close();
-  });
 
   test("Sign-up a new user", async () => {
     await pm.registrationPage.goto();

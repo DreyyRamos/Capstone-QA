@@ -12,6 +12,7 @@ export default class PublicationsPage extends BasePage {
   readonly commentTxtbox: Locator;
   readonly reportBtn: Locator;
   readonly likeCommentBtn: Locator;
+  readonly reportCommentBtn: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -32,6 +33,9 @@ export default class PublicationsPage extends BasePage {
     this.reportBtn = page.getByTestId("page-button-2");
     this.likeCommentBtn = page
       .getByTestId("publication-comment-like-button-button-1")
+      .first();
+    this.reportCommentBtn = page
+      .getByTestId("publication-comments-button-5")
       .first();
   }
 
@@ -59,7 +63,7 @@ export default class PublicationsPage extends BasePage {
 
   async gotoPubs() {
     await this.navigate("/publications");
-    await this.page.getByRole("link", { name: "The Secret Syllabus:" }).click();
+    await this.page.getByRole("link").first().click();
   }
 
   async likePubsNoUser() {
@@ -83,6 +87,11 @@ export default class PublicationsPage extends BasePage {
 
   async likeCommentNoUser() {
     await this.likeCommentBtn.click();
+    await this.noAccountMessage();
+  }
+
+  async reportCommentNoUser() {
+    await this.reportCommentBtn.click();
     await this.noAccountMessage();
   }
 }

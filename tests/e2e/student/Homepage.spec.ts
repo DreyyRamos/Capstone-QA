@@ -11,10 +11,6 @@ test.describe("Testing for student", async () => {
     pm = new PageManager(page);
   });
 
-  test.afterEach(async ({ page }) => {
-    page.close();
-  });
-
   test("Navigate after logging in", async () => {
     await pm.homepage.goto();
   });

@@ -27,4 +27,9 @@ test.describe("Publication flow validation no account logged in", async () => {
     await pm.publicationsPage.gotoPubs();
     await pm.publicationsPage.likeCommentNoUser();
   });
+
+  test("Report a comment as guest", async () => {
+    await pm.publicationsPage.gotoPubs();
+    await pm.publicationsPage.reportCommentNoUser();
+  });
 });

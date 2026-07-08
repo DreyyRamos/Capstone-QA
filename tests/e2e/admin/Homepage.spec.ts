@@ -12,8 +12,6 @@ test.describe("Testing for admin", async () => {
     pm = new PageManager(page);
   });
 
-  test.afterEach(async ({ page, request }) => {});
-
   test("Navigate after logging in", async () => {
     await pm.homepage.goto();
   });
