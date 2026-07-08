@@ -63,7 +63,7 @@ export default class PublicationsPage extends BasePage {
 
   async gotoPubs() {
     await this.navigate("/publications");
-    await this.page.getByRole("link").first().click();
+    await this.page.getByRole("link", { name: "The Secret Syllabus:" }).click();
   }
 
   async likePubsNoUser() {
