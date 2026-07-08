@@ -15,7 +15,7 @@ test.describe("No logged in account validation", async () => {
     await pm.homepage.noAccountMessage();
   });
 
-  test.only("Test search bar functionality", async () => {
+  test("Test search bar functionality", async () => {
     await pm.homepage.goto();
     await pm.homepage.trySearchBar();
   });
