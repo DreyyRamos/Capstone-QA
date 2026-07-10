@@ -68,30 +68,27 @@ export default class PublicationsPage extends BasePage {
 
   async likePubsNoUser() {
     await this.likeBtn.click();
-    await this.noAccountMessage();
-    await this.noAccountModalClose();
   }
 
   async commentPubsNoUser() {
     await this.commentTxtbox.fill("Test comment");
     await this.page.getByTestId("page-button-3").click();
-    await this.noAccountMessage();
-    await this.noAccountModalClose();
   }
 
   async reportPubsNoUser() {
     await this.reportBtn.click();
-    await this.noAccountMessage();
-    await this.noAccountModalClose();
   }
 
   async likeCommentNoUser() {
     await this.likeCommentBtn.click();
-    await this.noAccountMessage();
   }
 
   async reportCommentNoUser() {
     await this.reportCommentBtn.click();
+  }
+
+  async assertNoAccountMessage() {
     await this.noAccountMessage();
+    await this.noAccountModalClose();
   }
 }
