@@ -67,4 +67,8 @@ export default class ForumPage extends BasePage {
 
     return forumId;
   }
+
+  async clickCreateButton() {
+    await this.createForumBtn.click();
+  }
 }
