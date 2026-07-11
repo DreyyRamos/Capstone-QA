@@ -3,7 +3,7 @@ import PageManager from "../../../pages/PageManager";
 
 let pm: PageManager;
 
-test.describe("Registration flow", async () => {
+test.describe("Registration flow", () => {
   test.beforeEach(async ({ page }) => {
     pm = new PageManager(page);
   });
@@ -15,6 +15,6 @@ test.describe("Registration flow", async () => {
       "to test 1",
       "newUserToTest1@email.com",
     );
-    // await pm.registrationPage.assertMessage("User registered successfully!");
+    await pm.registrationPage.assertMessage();
   });
 });

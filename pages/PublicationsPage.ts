@@ -44,17 +44,29 @@ export default class PublicationsPage extends BasePage {
   }
 
   async fillPubsInfo() {
-    await this.titleField.fill("Test Playwright 2");
-    await this.excerptField.fill("Test excerpt playwright 2");
-    await this.contentEditor.fill("Test body playwright 2");
+    await this.titleField.fill("Test Playwright 4");
+    await this.excerptField.fill("Test excerpt playwright 4");
+    await this.contentEditor.fill("Test body playwright 4");
   }
 
   async submit() {
     await this.publishBtn.click();
   }
 
-  async confirmSubmit() {
+  async confirmSubmit(): Promise<string> {
     await this.submitPublicationBtn.click();
+
+    await this.page.waitForURL(/\/publications\/(?!create\b)[a-z0-9]{20,}/);
+
+    const url = this.page.url();
+    const match = url.match(/\/publications\/([a-z0-9]+)/);
+    const pubId = match?.[1];
+
+    if (!pubId) {
+      throw new Error(`Could not extract publication ID from URL: ${url}`);
+    }
+
+    return pubId;
   }
 
   async assertMessage(msg: string) {

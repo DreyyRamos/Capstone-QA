@@ -34,5 +34,6 @@ test.describe("Forum flow in admin side", () => {
       "My sports contents",
       "My tags",
     );
+    await pm.forumPage.assertForumCreatedMessage();
   });
 });

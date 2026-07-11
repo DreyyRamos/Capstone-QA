@@ -51,8 +51,7 @@ export default class RegistrationPage extends BasePage {
     await this.submitBtn.click();
   }
 
-  //   async assertMessage(msg: string) {
-  //     let regMsg = await this.page.getByRole("listitem");
-  //     expect(regMsg).toContainText(msg);
-  //   }
+  async assertMessage() {
+    await expect(this.page.locator("[data-sonner-toast]")).toBeVisible();
+  }
 }

@@ -68,7 +68,18 @@ export default class ForumPage extends BasePage {
     return forumId;
   }
 
+  async assertForumCreatedMessage() {
+    await expect(this.page.locator("[data-sonner-toast]")).toContainText(
+      "Forum created!",
+    );
+  }
+
   async clickCreateButton() {
     await this.createForumBtn.click();
+  }
+
+  async assertNoAccountMessage() {
+    await this.noAccountMessage();
+    await this.noAccountModalClose();
   }
 }

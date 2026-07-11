@@ -6,7 +6,7 @@ dotenv.config();
 test.use({ storageState: "playwright/.auth/student.json" });
 let pm: PageManager;
 
-test.describe("Testing for student", async () => {
+test.describe("Testing for student", () => {
   test.beforeEach(async ({ page }) => {
     pm = new PageManager(page);
   });

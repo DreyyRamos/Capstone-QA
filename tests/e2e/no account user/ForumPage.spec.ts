@@ -1,6 +1,5 @@
 import { expect, test } from "@playwright/test";
 import PageManager from "../../../pages/PageManager";
-import { CategoryOption } from "../../../pages/ForumPage";
 
 let pm: PageManager;
 
@@ -12,6 +11,6 @@ test.describe("Forum flow validation", async () => {
   test("Create a forum without an account", async () => {
     await pm.forumPage.goto();
     await pm.forumPage.clickCreateButton();
-    await pm.forumPage.noAccountMessage();
+    await pm.forumPage.assertNoAccountMessage();
   });
 });
