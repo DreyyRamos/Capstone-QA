@@ -12,6 +12,8 @@ let pm: PageManager;
 
 test.describe("Forum flow in admin side", () => {
   let forumId: string;
+  let forumIdToEdit: string;
+
   test.beforeAll(async () => {
     apiContext = await getAuthApiContext(
       process.env.ADMIN_EMAIL!,
@@ -20,10 +22,25 @@ test.describe("Forum flow in admin side", () => {
   });
   test.beforeEach(async ({ page }) => {
     pm = new PageManager(page);
+
+    const newForum = await apiContext.post("/api/forums/create", {
+      data: {
+        topicTitle: "Forum to edit",
+        description: "Forum desctiption to edit",
+      },
+    });
+
+    const forumData = await newForum.json();
+    forumIdToEdit = forumData.forum.forumId;
   });
   test.afterEach(async () => {
-    if (forumId) {
+    if (forumId && forumIdToEdit && forumId !== forumIdToEdit) {
       await apiContext.delete(`/api/forums/${forumId}`);
+      await apiContext.delete(`/api/forums/${forumIdToEdit}`);
+    } else if (forumId) {
+      await apiContext.delete(`/api/forums/${forumId}`);
+    } else if (forumIdToEdit) {
+      await apiContext.delete(`/api/forums/${forumIdToEdit}`);
     }
   });
 
@@ -35,5 +52,15 @@ test.describe("Forum flow in admin side", () => {
       "My tags",
     );
     await pm.forumPage.assertForumCreatedMessage();
+  });
+
+  test.fail("Update or edit a forum", async () => {
+    await pm.forumPage.gotoEditForum(forumIdToEdit);
+    await pm.forumPage.fillForumToEdit(
+      "Edited forum title",
+      "Edited forum content",
+    );
+    await pm.forumPage.submitEditedForum();
+    await pm.forumPage.assertUpdatedForum(); // this should show "Forum updated successully!" not Publication, everything else works
   });
 });

@@ -82,4 +82,23 @@ export default class ForumPage extends BasePage {
     await this.noAccountMessage();
     await this.noAccountModalClose();
   }
+
+  async gotoEditForum(forumId: string) {
+    await this.navigate(`/profile/forums/${forumId}/update`);
+  }
+
+  async fillForumToEdit(title: string, content: string) {
+    await this.page.getByRole("textbox", { name: "Topic Title *" }).fill(title);
+    await this.page.getByRole("textbox", { name: "Description" }).fill(content);
+  }
+
+  async submitEditedForum() {
+    await this.page.getByTestId("page-button-3").click();
+  }
+
+  async assertUpdatedForum() {
+    await expect(this.page.locator("[data-sonner-toast]")).toContainText(
+      "Forum updated successfully!",
+    );
+  }
 }

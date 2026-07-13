@@ -13,6 +13,7 @@ export default class PublicationsPage extends BasePage {
   readonly reportBtn: Locator;
   readonly likeCommentBtn: Locator;
   readonly reportCommentBtn: Locator;
+  readonly updateBtn: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -37,6 +38,7 @@ export default class PublicationsPage extends BasePage {
     this.reportCommentBtn = page
       .getByTestId("publication-comments-button-5")
       .first();
+    this.updateBtn = page.getByRole("button", { name: "Update" });
   }
 
   async gotoCreate() {
@@ -102,5 +104,25 @@ export default class PublicationsPage extends BasePage {
   async assertNoAccountMessage() {
     await this.noAccountMessage();
     await this.noAccountModalClose();
+  }
+
+  async gotoEditPubs(pubId: string) {
+    await this.navigate(`/publications/${pubId}/update`);
+  }
+
+  async fillPubsEditInfo(title: string, excerpt: string, content: string) {
+    await this.page.getByRole("textbox", { name: "Title *" }).fill(title);
+    await this.page.getByRole("textbox", { name: "Excerpt" }).fill(excerpt);
+    await this.contentEditor.fill(content);
+  }
+
+  async updatePubBtn() {
+    await this.updateBtn.click();
+  }
+
+  async assertUpdatedPubsMsg() {
+    await expect(this.page.locator("[data-sonner-toast]")).toContainText(
+      "Updated successfully!",
+    );
   }
 }
