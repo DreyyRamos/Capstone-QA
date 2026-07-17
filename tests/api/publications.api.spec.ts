@@ -1,4 +1,4 @@
-import { test, APIRequestContext } from "@playwright/test";
+import { test, APIRequestContext, expect } from "@playwright/test";
 import PageManager from "../../pages/PageManager";
 import { getAuthApiContext } from "../../utils/getAuthApiContext";
 import dotenv from "dotenv";
@@ -18,9 +18,9 @@ test.describe("API testing for publications", async () => {
       process.env.ADMIN_PASSWORD!,
     );
   });
-  test.beforeEach(async ({ page, request }) => {
+  test.beforeEach(async ({ page }) => {
     pm = new PageManager(page);
-    const newPost = await request.post("/api/publications/create", {
+    const newPost = await apiContext.post("/api/publications/create", {
       data: {
         title: "THis is test from playwright",
         excerpt: "This is test excerpt",
@@ -28,17 +28,30 @@ test.describe("API testing for publications", async () => {
       },
     });
     const postData = await newPost.json();
-    postId = postData.pubId;
+    postId = postData.publication.pubId;
+    console.log("created pub data:  ", postData);
   });
 
-  test.afterEach(async ({ page, request }) => {
-    await request.delete(`/api/publications/${postId}`);
-    page.close();
+  test.afterEach(async () => {
+    await apiContext.delete(`/api/publications/${postId}`);
+  });
+
+  test("Edit publication", async () => {
+    const editPub = await apiContext.put(`/api/publications/${postId}`, {
+      data: {
+        title: "New Pub edited",
+        excerpt: "New Excerpt edited", // excerpt should be included in edit pub enpoint, right now it is not included. See console log for detials
+        content: "New Content edited",
+      },
+    });
+
+    const editedPub = await editPub.json();
+    console.log("pub edited: ", editedPub);
   });
 
   test("Publications endpoints", async () => {
     const res = await apiContext.get("/api/publications");
     const data = await res.json();
-    // console.log(data);
+    expect(data.status).toBe(200);
   });
 });
