@@ -68,9 +68,4 @@ test.describe("Testing for admin", () => {
     await pm.publicationsPage.updatePubBtn();
     await pm.publicationsPage.assertUpdatedPubsMsg();
   });
-
-  test("Change user role", async () => {
-    await pm.usersPage.goto();
-    await pm.usersPage.changeUserRole("Editor");
-  });
 });

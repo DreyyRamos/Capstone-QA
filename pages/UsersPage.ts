@@ -8,6 +8,7 @@ export default class UsersPage extends BasePage {
   readonly menuItem: Locator;
   readonly comboBoxMenu: Locator;
   readonly reasonforChange: Locator;
+  readonly updateRoleBtn: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -19,17 +20,14 @@ export default class UsersPage extends BasePage {
     this.reasonforChange = page.getByRole("textbox", {
       name: "Reason for change (optional)",
     });
+    this.updateRoleBtn = page.getByTestId("page-button-2");
   }
 
   comboBoxOption(role: string): Locator {
-    return this.page.getByText(role, { exact: true });
+    return this.page.getByRole("option", { name: role });
   }
 
-  userRow(userIdentifier: string): Locator {
-    return this.page.getByTestId("users-list-button-1").first();
-  }
-
-  async goto() {
+  async gotoUsersPage() {
     await this.navigate("/users");
   }
 
@@ -41,5 +39,12 @@ export default class UsersPage extends BasePage {
     await this.comboBoxMenu.click();
     await this.comboBoxOption(role).click();
     await this.reasonforChange.fill("because of the changes haha");
+    await this.updateRoleBtn.click();
+  }
+
+  async asserUserRoleChangedMsg(role: string) {
+    await expect(this.page.locator("[data-sonner-toast]")).toContainText(
+      `User role updated to ${role} successfully!`,
+    );
   }
 }
