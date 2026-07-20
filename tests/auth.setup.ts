@@ -37,7 +37,6 @@ for (const role of roles) {
     await page.locator("button[type='submit']").click();
 
     await page.waitForLoadState("networkidle");
-    await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
 
     await page.context().storageState({
