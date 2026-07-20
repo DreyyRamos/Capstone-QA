@@ -7,6 +7,7 @@ import RegistrationPage from "./RegistrationPage";
 import AdmissionsPage from "./AdmissionsPage";
 import ForumPage from "./ForumPage";
 import ModerationPage from "./ModerationPage";
+import ContentManagerPage from "./ContentManagerPage";
 
 export default class PageManager {
   page: Page;
@@ -18,6 +19,7 @@ export default class PageManager {
   admissionsPage: AdmissionsPage;
   forumPage: ForumPage;
   moderationPage: ModerationPage;
+  contentManagerPage: ContentManagerPage;
   constructor(page: Page) {
     this.page = page;
     this.homepage = new Homepage(page);
@@ -28,5 +30,6 @@ export default class PageManager {
     this.admissionsPage = new AdmissionsPage(page);
     this.forumPage = new ForumPage(page);
     this.moderationPage = new ModerationPage(page);
+    this.contentManagerPage = new ContentManagerPage(page);
   }
 }
