@@ -30,6 +30,6 @@ test.describe("Change user role by Admin", () => {
     const targetRole = currentRole === "EDITOR" ? "STUDENT" : "EDITOR";
     await pm.usersPage.gotoUsersPage();
     await pm.usersPage.changeUserRole(targetRole);
-    await pm.usersPage.asserUserRoleChangedMsg(targetRole);
+    await pm.usersPage.assertUserRoleChangedMsg(targetRole);
   });
 });

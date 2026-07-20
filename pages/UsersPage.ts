@@ -42,7 +42,7 @@ export default class UsersPage extends BasePage {
     await this.updateRoleBtn.click();
   }
 
-  async asserUserRoleChangedMsg(role: string) {
+  async assertUserRoleChangedMsg(role: string) {
     await expect(this.page.locator("[data-sonner-toast]")).toContainText(
       `User role updated to ${role} successfully!`,
     );

@@ -29,7 +29,6 @@ test.describe("API testing for publications", async () => {
     });
     const postData = await newPost.json();
     postId = postData.publication.pubId;
-    console.log("created pub data:  ", postData);
   });
 
   test.afterEach(async () => {
@@ -46,7 +45,6 @@ test.describe("API testing for publications", async () => {
     });
 
     const editedPub = await editPub.json();
-    console.log("pub edited: ", editedPub);
   });
 
   test("Publications endpoints", async () => {
