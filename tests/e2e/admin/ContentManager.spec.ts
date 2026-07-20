@@ -9,7 +9,7 @@ test.use({ storageState: "playwright/.auth/admin.json" });
 let pm: PageManager;
 let apiContext: APIRequestContext;
 
-test.describe.only("Content management flow", () => {
+test.describe("Content management flow", () => {
   let pubId: string;
   test.beforeAll(async () => {
     apiContext = await getAuthApiContext(
