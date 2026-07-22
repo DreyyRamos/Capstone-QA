@@ -20,19 +20,19 @@ export default class ContentManagerPage extends BasePage {
     await this.navigate("/content-manager");
   }
 
-  async archivePublication(status: string) {
+  async archivePublication() {
     await this.optionMenuBtn.click();
     await this.archiveBtn.click();
     await expect(this.page.locator("[data-sonner-toast]")).toContainText(
-      `Publication ${status}!`,
+      `Publication archived!`,
     );
   }
 
-  async rejectPublication(status: string) {
+  async rejectPublication() {
     await this.optionMenuBtn.click();
     await this.rejectBtn.click();
     await expect(this.page.locator("[data-sonner-toast]")).toContainText(
-      `Publication ${status}}!`,
+      `Publication rejected!`,
     );
   }
 

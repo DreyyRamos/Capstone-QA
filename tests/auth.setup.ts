@@ -36,6 +36,8 @@ for (const role of roles) {
     await page.locator("#password").fill(role.password);
     await page.locator("button[type='submit']").click();
 
+    await expect(page.getByTestId("header-button-4")).toBeVisible();
+
     await page.waitForLoadState("networkidle");
     await page.waitForLoadState("domcontentloaded");
 

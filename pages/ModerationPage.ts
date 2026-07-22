@@ -15,7 +15,7 @@ export default class ModerationPage extends BasePage {
     this.confirmDeletionBtn = page.getByTestId("confirmation-modal-button-2");
   }
 
-  async gotoModeratioPage() {
+  async gotoModerationPage() {
     await this.navigate("/moderation");
   }
 

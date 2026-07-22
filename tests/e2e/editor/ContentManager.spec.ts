@@ -1,10 +1,10 @@
-import { test, APIRequestContext } from "@playwright/test";
+import { test, APIRequestContext, expect } from "@playwright/test";
 import PageManager from "../../../pages/PageManager";
 import { getAuthApiContext } from "../../../utils/getAuthApiContext";
 import dotenv from "dotenv";
 dotenv.config();
 
-test.use({ storageState: "playwright/.auth/admin.json" });
+test.use({ storageState: "playwright/.auth/editor.json" });
 
 let pm: PageManager;
 let apiContext: APIRequestContext;
@@ -13,8 +13,8 @@ test.describe("Content management flow", () => {
   let pubId: string;
   test.beforeAll(async () => {
     apiContext = await getAuthApiContext(
-      process.env.ADMIN_EMAIL!,
-      process.env.ADMIN_PASSWORD!,
+      process.env.EDITOR_EMAIL!,
+      process.env.EDITOR_PASSWORD!,
     );
   });
 

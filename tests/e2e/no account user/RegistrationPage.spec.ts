@@ -1,9 +1,11 @@
 import { expect, test, Page } from "@playwright/test";
 import PageManager from "../../../pages/PageManager";
+import { randomUUID } from "crypto";
 
 let pm: PageManager;
 
 test.describe("Registration flow", () => {
+  let uniqueId = randomUUID();
   test.beforeEach(async ({ page }) => {
     pm = new PageManager(page);
   });
@@ -13,7 +15,7 @@ test.describe("Registration flow", () => {
     await pm.registrationPage.signUp(
       "new user 1",
       "to test 1",
-      "newUserToTest1@email.com",
+      `newUserToTest${uniqueId}@email.com`,
     );
     await pm.registrationPage.assertMessage();
   });

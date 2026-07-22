@@ -5,7 +5,7 @@ import { randomUUID } from "crypto";
 import dotenv from "dotenv";
 dotenv.config();
 
-test.use({ storageState: "playwright/.auth/admin.json" });
+test.use({ storageState: "playwright/.auth/moderator.json" });
 
 let pm: PageManager;
 let apiContext: APIRequestContext;
@@ -18,8 +18,8 @@ test.describe("Moderation flow", () => {
 
   test.beforeAll(async () => {
     apiContext = await getAuthApiContext(
-      process.env.ADMIN_EMAIL!,
-      process.env.ADMIN_PASSWORD!,
+      process.env.MODERATOR_EMAIL!,
+      process.env.MODERATOR_PASSWORD!,
     );
   });
   test.beforeEach(async ({ page }) => {
