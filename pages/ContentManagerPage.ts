@@ -23,6 +23,9 @@ export default class ContentManagerPage extends BasePage {
   async archivePublication() {
     await this.optionMenuBtn.click();
     await this.archiveBtn.click();
+  }
+
+  async assertArchivePublication(){
     await expect(this.page.locator("[data-sonner-toast]")).toContainText(
       `Publication archived!`,
     );
@@ -31,6 +34,9 @@ export default class ContentManagerPage extends BasePage {
   async rejectPublication() {
     await this.optionMenuBtn.click();
     await this.rejectBtn.click();
+  }
+
+  async assertRejectPublication() {
     await expect(this.page.locator("[data-sonner-toast]")).toContainText(
       `Publication rejected!`,
     );

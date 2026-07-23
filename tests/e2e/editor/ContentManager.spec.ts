@@ -42,11 +42,13 @@ test.describe("Content management flow", () => {
   test("Archive submitted publication", async () => {
     await pm.contentManagerPage.gotoContentManagerPage();
     await pm.contentManagerPage.archivePublication();
+    await pm.contentManagerPage.assertArchivePublication();
   });
 
   test.fail("Reject submitted publication", async () => {
     await pm.contentManagerPage.gotoContentManagerPage();
     await pm.contentManagerPage.rejectPublication(); // This shows archived instead of rejected in the toast in UI, but still works
+    await pm.contentManagerPage.assertRejectPublication();
   });
 
   test("Approve publication through content manager", async () => {

@@ -8,6 +8,7 @@ import AdmissionsPage from "./AdmissionsPage";
 import ForumPage from "./ForumPage";
 import ModerationPage from "./ModerationPage";
 import ContentManagerPage from "./ContentManagerPage";
+import RoleChangeRequestPage from "./RoleChangeRequestPage";
 
 export default class PageManager {
   page: Page;
@@ -20,6 +21,7 @@ export default class PageManager {
   forumPage: ForumPage;
   moderationPage: ModerationPage;
   contentManagerPage: ContentManagerPage;
+  roleChangeRequestPage: RoleChangeRequestPage;
   constructor(page: Page) {
     this.page = page;
     this.homepage = new Homepage(page);
@@ -31,5 +33,6 @@ export default class PageManager {
     this.forumPage = new ForumPage(page);
     this.moderationPage = new ModerationPage(page);
     this.contentManagerPage = new ContentManagerPage(page);
+    this.roleChangeRequestPage = new RoleChangeRequestPage(page);
   }
 }
