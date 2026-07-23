@@ -97,8 +97,8 @@ export default class ForumPage extends BasePage {
   }
 
   async assertUpdatedForum() {
-    await expect(this.page.locator("[data-sonner-toast]")).toContainText(
-      "Forum updated successfully!",
-    );
+    await expect(
+      this.page.getByText("Forum updated successfully!"),
+    ).toBeVisible();
   }
 }

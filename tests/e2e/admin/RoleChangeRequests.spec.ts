@@ -1,4 +1,4 @@
-import { test, APIRequestContext } from "@playwright/test";
+import { test, APIRequestContext, expect } from "@playwright/test";
 import PageManager from "../../../pages/PageManager";
 import { getAuthApiContext } from "../../../utils/getAuthApiContext";
 import { randomUUID } from "crypto";
@@ -13,7 +13,6 @@ let apiContext: APIRequestContext;
 test.describe("Role change requests flow", () => {
   let newUserId: string;
   let requestId: string;
-  let uniqueId = randomUUID();
   test.beforeAll(async () => {
     apiContext = await getAuthApiContext(
       process.env.ADMIN_EMAIL!,
@@ -22,6 +21,7 @@ test.describe("Role change requests flow", () => {
   });
 
   test.beforeEach(async ({ page }) => {
+    let uniqueId = randomUUID();
     pm = new PageManager(page);
 
     const newUser = await apiContext.post("/api/admin/create-user", {
@@ -32,6 +32,8 @@ test.describe("Role change requests flow", () => {
         password: "12345678",
       },
     });
+
+    expect(newUser.ok()).toBeTruthy();
 
     const userData = await newUser.json();
     newUserId = userData.user.id;

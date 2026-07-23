@@ -121,8 +121,6 @@ export default class PublicationsPage extends BasePage {
   }
 
   async assertUpdatedPubsMsg() {
-    await expect(this.page.locator("[data-sonner-toast]")).toContainText(
-      "Updated successfully!",
-    );
+    await expect(this.page.getByText("Updated successfully!")).toBeVisible();
   }
 }

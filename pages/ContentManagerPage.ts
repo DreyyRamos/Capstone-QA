@@ -25,10 +25,8 @@ export default class ContentManagerPage extends BasePage {
     await this.archiveBtn.click();
   }
 
-  async assertArchivePublication(){
-    await expect(this.page.locator("[data-sonner-toast]")).toContainText(
-      `Publication archived!`,
-    );
+  async assertArchivePublication() {
+    await expect(this.page.getByText("Publication archived!")).toBeVisible();
   }
 
   async rejectPublication() {
@@ -37,9 +35,7 @@ export default class ContentManagerPage extends BasePage {
   }
 
   async assertRejectPublication() {
-    await expect(this.page.locator("[data-sonner-toast]")).toContainText(
-      `Publication rejected!`,
-    );
+    await expect(this.page.getByText("Publication rejected!")).toBeVisible();
   }
 
   async approvePublication() {

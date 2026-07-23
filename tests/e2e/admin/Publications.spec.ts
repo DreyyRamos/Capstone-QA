@@ -30,6 +30,8 @@ test.describe("Testing for admin", () => {
       },
     });
 
+    expect(newPub.ok()).toBeTruthy();
+
     const pubData = await newPub.json();
     pubIdToEdit = pubData.publication.pubId;
   });

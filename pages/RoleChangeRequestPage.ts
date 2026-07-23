@@ -29,9 +29,7 @@ export default class RoleChangeRequestPage extends BasePage {
   }
 
   async assertRoleChangeApproval() {
-    await expect(this.page.locator("[data-sonner-toast]")).toContainText(
-      "Role change request approved!",
-    );
+    await expect(this.page.getByText("Role change request approved!")).toBeVisible();
   }
 
   async rejectRoleChange() {
@@ -40,8 +38,6 @@ export default class RoleChangeRequestPage extends BasePage {
   }
 
   async assertRoleChangeRejection() {
-    await expect(this.page.locator("[data-sonner-toast]")).toContainText(
-      "Role change request rejected!",
-    );
+    await expect(this.page.getByText("Role change request rejected!")).toBeVisible();
   }
 }
