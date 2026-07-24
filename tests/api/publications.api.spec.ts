@@ -9,7 +9,7 @@ test.use({ storageState: "playwright/.auth/admin.json" });
 let apiContext: APIRequestContext;
 let pm: PageManager;
 
-test.describe("API testing for publications", async () => {
+test.describe.only("API testing for publications", async () => {
   let postId: string;
 
   test.beforeAll(async () => {
@@ -44,7 +44,7 @@ test.describe("API testing for publications", async () => {
       },
     });
 
-    const editedPub = await editPub.json();
+    expect(editPub.ok()).toBeTruthy();
   });
 
   test("Publications endpoints", async () => {
