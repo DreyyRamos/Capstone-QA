@@ -12,6 +12,8 @@ let pm: PageManager;
 
 test.describe("Admission Flow", () => {
   let admissionId: string;
+  let firstName: string;
+  let lastName: string;
   const uniqueId = randomUUID();
 
   test.beforeAll(async () => {
@@ -34,6 +36,8 @@ test.describe("Admission Flow", () => {
 
     const admissionData = await newAdmission.json();
     admissionId = admissionData.admission.admission_id;
+    firstName = admissionData.admission.firstName;
+    lastName = admissionData.admission.lastName;
   });
   test.afterEach(async () => {
     await apiContext.delete(`/api/admin/user-admissions/${admissionId}`);
@@ -42,17 +46,24 @@ test.describe("Admission Flow", () => {
   test("View Admissions", async () => {
     await pm.admissionsPage.goto();
     await pm.admissionsPage.viewAdmission();
+    await pm.admissionsPage.assertViewAdmission();
   });
 
-  test("Approve admission", async () => {
+  test.fail("Approve admission", async () => {
     await pm.admissionsPage.goto();
     await pm.admissionsPage.approveAdmission();
     await pm.admissionsPage.confirmApproval();
+    await pm.admissionsPage.assertApproveAdmission(); //this should show email sent with proper gmail account
   });
 
   test("Reject admission", async () => {
     await pm.admissionsPage.goto();
     await pm.admissionsPage.rejectAdmission();
     await pm.admissionsPage.confirmRejection();
+    await pm.admissionsPage.assertRejectAdmission(
+      firstName,
+      lastName,
+      admissionId,
+    );
   });
 });

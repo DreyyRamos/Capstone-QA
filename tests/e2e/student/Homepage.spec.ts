@@ -11,7 +11,8 @@ test.describe("Testing for student", () => {
     pm = new PageManager(page);
   });
 
-  test("Navigate after logging in", async () => {
+  test("Navigate after logging in", async ({ page }) => {
     await pm.homepage.goto();
+    await expect(page).toHaveURL("/");
   });
 });

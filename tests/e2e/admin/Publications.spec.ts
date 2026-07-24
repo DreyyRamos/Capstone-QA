@@ -46,10 +46,6 @@ test.describe("Testing for admin", () => {
     }
   });
 
-  test("Navigate after logging in", async () => {
-    await pm.homepage.goto();
-  });
-
   test("Creating pubs as admin", async () => {
     await pm.publicationsPage.gotoCreate();
     await pm.publicationsPage.fillPubsInfo();

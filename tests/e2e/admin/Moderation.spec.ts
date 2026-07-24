@@ -14,7 +14,7 @@ test.describe("Moderation flow", () => {
   let pubIdToReport: string;
   let newUserId: string;
   let reportId: string;
-  let uniqueId = randomUUID();
+  
 
   test.beforeAll(async () => {
     apiContext = await getAuthApiContext(
@@ -23,6 +23,7 @@ test.describe("Moderation flow", () => {
     );
   });
   test.beforeEach(async ({ page }) => {
+    let uniqueId = randomUUID();
     pm = new PageManager(page);
 
     const newUser = await apiContext.post("/api/admin/create-user", {

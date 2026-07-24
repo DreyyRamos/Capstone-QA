@@ -1,4 +1,4 @@
-import { Page, Locator } from "@playwright/test";
+import { Page, Locator, expect } from "@playwright/test";
 import BasePage from "./BasePage";
 
 export default class AdmissionsPage extends BasePage {
@@ -27,8 +27,31 @@ export default class AdmissionsPage extends BasePage {
     await this.reviewBtn.click();
   }
 
+  async assertViewAdmission() {
+    await expect(
+      this.page.getByRole("heading", { name: "Admission Application Review" }),
+    ).toBeVisible();
+  }
+
   async approveAdmission() {
     await this.approveBtn.click();
+  }
+
+  async assertApproveAdmission() {
+    await expect(this.page.getByText("Email Sent!")).toBeVisible();
+    //Error Sent: Gmail_API: Invalid grant. Please reconnect your Gmail account
+  }
+
+  async assertRejectAdmission(
+    firstName: string,
+    lastName: string,
+    admission_id: string,
+  ) {
+    await expect(
+      this.page.getByText(
+        `Rejected admission for ${firstName} ${lastName}, Admission ID: ${admission_id}`,
+      ),
+    ).toBeVisible();
   }
 
   async confirmApproval() {

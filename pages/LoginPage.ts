@@ -13,7 +13,7 @@ export default class LoginPage extends BasePage {
     this.signInBtn = page.getByRole("button", { name: "Sign In" });
   }
 
-  async goto() {
+  async gotoLoginPage() {
     await this.navigate("/login");
   }
 
@@ -21,6 +21,10 @@ export default class LoginPage extends BasePage {
     await this.emailField.fill(email);
     await this.passwordField.fill(password);
     await this.signInBtn.click();
+  }
+
+  async assertLoginSuccess() {
+    await expect(this.page.getByTestId("header-button-4")).toBeVisible();
   }
 
   async assertErrorMessage() {
