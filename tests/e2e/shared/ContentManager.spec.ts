@@ -44,6 +44,8 @@ for (const role of roles) {
         },
       });
 
+      expect(newPub.ok()).toBeTruthy();
+
       const pubData = await newPub.json();
       pubId = pubData.publication.pubId;
     });

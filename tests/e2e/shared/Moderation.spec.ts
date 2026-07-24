@@ -1,4 +1,4 @@
-import { test, APIRequestContext } from "@playwright/test";
+import { test, APIRequestContext, expect } from "@playwright/test";
 import PageManager from "../../../pages/PageManager";
 import { getAuthApiContext } from "../../../utils/getAuthApiContext";
 import { randomUUID } from "crypto";
@@ -54,9 +54,9 @@ for (const role of roles) {
 
       const pubToReport = await apiContext.post("/api/publications/create", {
         data: {
-          title: "Pub to report",
-          excerpt: "Pub to report",
-          content: "Pub to report",
+          title: "Pub to report2",
+          excerpt: "Pub to report2",
+          content: "Pub to report2",
           status: "PUBLISHED",
         },
       });
@@ -70,8 +70,11 @@ for (const role of roles) {
           reportReason: "Harassment or bullying",
           description: "I am reporting it",
           pubId: pubIdToReport,
+          reportedUserId: newUserId,
         },
       });
+
+      expect(newReport.ok()).toBeTruthy();
 
       const reportData = await newReport.json();
       reportId = reportData.report.reportId;
@@ -88,6 +91,7 @@ for (const role of roles) {
     test("Delete reported publication", async () => {
       await pm.moderationPage.gotoModerationPage();
       await pm.moderationPage.deleteReportedContent();
+      await pm.moderationPage.assertDeletion();
     });
   });
 }

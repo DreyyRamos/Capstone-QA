@@ -24,4 +24,10 @@ export default class ModerationPage extends BasePage {
     await this.reportedDeleteBtn.click();
     await this.confirmDeletionBtn.click();
   }
+
+  async assertDeletion() {
+    await expect(
+      this.page.getByText("Report deleted successfully!"),
+    ).toBeVisible();
+  }
 }
