@@ -19,7 +19,6 @@ test.describe("API testing for publications", async () => {
     );
   });
   test.beforeEach(async ({ page }) => {
-    pm = new PageManager(page);
     const newPost = await apiContext.post("/api/publications/create", {
       data: {
         title: "THis is test from playwright",
@@ -27,6 +26,7 @@ test.describe("API testing for publications", async () => {
         content: "This is test content",
       },
     });
+    expect(newPost.ok()).toBeTruthy();
     const postData = await newPost.json();
     postId = postData.publication.pubId;
   });

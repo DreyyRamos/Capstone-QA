@@ -27,10 +27,7 @@ for (const role of roles) {
     test.use({ storageState: role.storageState });
     let pubId: string;
     test.beforeAll(async () => {
-      apiContext = await getAuthApiContext(
-        process.env.EDITOR_EMAIL!,
-        process.env.EDITOR_PASSWORD!,
-      );
+      apiContext = await getAuthApiContext(role.email, role.password);
     });
 
     test.beforeEach(async ({ page }) => {

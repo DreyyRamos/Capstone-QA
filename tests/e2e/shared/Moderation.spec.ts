@@ -32,10 +32,7 @@ for (const role of roles) {
     let uniqueId = randomUUID();
 
     test.beforeAll(async () => {
-      apiContext = await getAuthApiContext(
-        process.env.MODERATOR_EMAIL!,
-        process.env.MODERATOR_PASSWORD!,
-      );
+      apiContext = await getAuthApiContext(role.email, role.password);
     });
     test.beforeEach(async ({ page }) => {
       pm = new PageManager(page);
