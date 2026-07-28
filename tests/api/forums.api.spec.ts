@@ -41,4 +41,31 @@ test.describe("API testing for forum", () => {
 
     expect(editForum.ok()).toBeTruthy();
   });
+
+  test("Create a forum with invalid data type", async () => {
+    const invalidForum = await apiContext.post("/api/forums/create", {
+      data: {
+        topicTitle: 1,
+        description: false,
+      },
+    });
+    expect(invalidForum.ok()).toBeFalsy();
+  });
+
+  test("Edit a forum with invalid data type", async () => {
+    const editForum = await apiContext.put(`/api/forums/${forumId}`, {
+      data: {
+        topicTitle: false,
+        description: 1,
+      },
+    });
+
+    expect(editForum.ok()).toBeFalsy();
+  });
+
+  test("Delete a forum with invalid id", async () => {
+    const deleteForum = await apiContext.delete(`/api/forums/invalidId`);
+
+    expect(deleteForum.ok()).toBeFalsy();
+  });
 });

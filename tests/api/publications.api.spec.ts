@@ -4,10 +4,7 @@ import { getAuthApiContext } from "../../utils/getAuthApiContext";
 import dotenv from "dotenv";
 dotenv.config();
 
-test.use({ storageState: "playwright/.auth/admin.json" });
-
 let apiContext: APIRequestContext;
-let pm: PageManager;
 
 test.describe("API testing for publications", async () => {
   let postId: string;
@@ -45,6 +42,35 @@ test.describe("API testing for publications", async () => {
     });
 
     expect(editPub.ok()).toBeTruthy();
+  });
+
+  test("Create publication with invalid data type", async () => {
+    const invalidPub = await apiContext.post("/api/publications/create", {
+      data: {
+        title: 1,
+        excerpt: 1,
+        content: false,
+      },
+    });
+    expect(invalidPub.ok()).toBeFalsy();
+  });
+
+  test("Edit publication with invalid data type", async () => {
+    const invalidPub = await apiContext.put(`/api/publications/${postId}`, {
+      data: {
+        title: false,
+        excerpt: 1,
+        content: false,
+      },
+    });
+
+    expect(invalidPub.ok()).toBeFalsy();
+  });
+
+  test("Delete a publication with invalid id", async () => {
+    const deletePub = await apiContext.delete(`/api/publications/invalidPubId`);
+
+    expect(deletePub.ok()).toBeFalsy();
   });
 
   test("Publications endpoints", async () => {
