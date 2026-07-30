@@ -5,7 +5,7 @@ dotenv.config();
 
 let apiContext: APIRequestContext;
 
-test.describe.only("API testing for forum", () => {
+test.describe("API testing for forum", () => {
   let forumId: string;
   test.beforeAll(async () => {
     apiContext = await getAuthApiContext(
