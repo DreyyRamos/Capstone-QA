@@ -1,5 +1,5 @@
 import { test, APIRequestContext, expect } from "@playwright/test";
-import { getAuthApiContext } from "../../utils/getAuthApiContext";
+import { getAuthApiContext } from "../../../utils/getAuthApiContext";
 import dotenv from "dotenv";
 dotenv.config();
 
