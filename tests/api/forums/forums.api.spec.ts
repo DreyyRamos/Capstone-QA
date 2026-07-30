@@ -53,7 +53,7 @@ test.describe("API testing for forum", () => {
     expect(invalidForum.status()).toBe(500);
   });
 
-  test.only("Edit a forum with invalid data type", async () => {
+  test("Edit a forum with invalid data type", async () => {
     const editForum = await apiContext.put(`/api/forums/${forumId}`, {
       data: {
         topicTitle: false,
