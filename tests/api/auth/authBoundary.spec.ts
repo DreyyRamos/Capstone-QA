@@ -14,11 +14,26 @@ test.describe("Auth boundary tests", () => {
     expect(body).toHaveProperty("userData.role", "STUDENT");
   });
 
-  test.fail(
-    "Student cannot access moderator only endpoints",
-    async ({ studentApiContext }) => {
-      const res = await studentApiContext.get("/api/moderator/fetch-users"); // Students can access the moderator endpoint
-      expect(res.status()).toBe(403);
-    },
-  );
+  test("Student cannot access moderator only endpoints", async ({
+    studentApiContext,
+  }) => {
+    const res = await studentApiContext.get("/api/moderator/fetch-users");
+    expect(res.status()).toBe(403);
+  });
+
+  test("Student cannot access editor only endpoints", async ({
+    studentApiContext,
+  }) => {
+    const res = await studentApiContext.get(
+      "/api/publications/editor/toReview",
+    );
+    expect(res.status()).toBe(403);
+  });
+
+  test("Student cannot access admin only endpoints", async ({
+    studentApiContext,
+  }) => {
+    const res = await studentApiContext.get("/api/admin/user-admissions");
+    expect(res.status()).toBe(403);
+  });
 });

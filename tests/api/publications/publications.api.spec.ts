@@ -40,7 +40,7 @@ test.describe("API testing for publications", async () => {
       },
     });
 
-    expect(editPub.ok()).toBeTruthy();
+    expect(editPub.status()).toBe(200);
   });
 
   test("Create publication with invalid data type", async () => {
@@ -51,7 +51,7 @@ test.describe("API testing for publications", async () => {
         content: false,
       },
     });
-    expect(invalidPub.ok()).toBeFalsy();
+    expect(invalidPub.status()).toBe(500);
   });
 
   test("Edit publication with invalid data type", async () => {
@@ -63,13 +63,13 @@ test.describe("API testing for publications", async () => {
       },
     });
 
-    expect(invalidPub.ok()).toBeFalsy();
+    expect(invalidPub.status()).toBe(500);
   });
 
   test("Delete a publication with invalid id", async () => {
     const deletePub = await apiContext.delete(`/api/publications/invalidPubId`);
 
-    expect(deletePub.ok()).toBeFalsy();
+    expect(deletePub.status()).toBe(500);
   });
 
   test("Publications endpoints", async () => {
