@@ -5,7 +5,7 @@ dotenv.config();
 
 let apiContext: APIRequestContext;
 
-test.describe("API testing for forum", () => {
+test.describe.only("API testing for forum", () => {
   let forumId: string;
   test.beforeAll(async () => {
     apiContext = await getAuthApiContext(
@@ -39,7 +39,7 @@ test.describe("API testing for forum", () => {
       },
     });
 
-    expect(editForum.status).toBe(200);
+    expect(editForum.status()).toBe(200);
   });
 
   test("Create a forum with invalid data type", async () => {
