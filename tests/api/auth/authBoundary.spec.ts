@@ -2,7 +2,7 @@ import { test, request, expect } from "../utils/apiFixtures";
 import dotenv from "dotenv";
 dotenv.config();
 
-test.describe.only("Auth boundary tests", () => {
+test.describe("Auth boundary tests", () => {
   test("Valid student token returns 200 and correct profile shape", async ({
     studentApiContext,
   }) => {
