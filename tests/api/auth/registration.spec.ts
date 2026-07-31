@@ -1,10 +1,16 @@
-import { test, expect } from "@playwright/test";
+import { test, request, expect } from "../utils/apiFixtures";
 import dotenv from "dotenv";
 import { randomUUID } from "crypto";
 dotenv.config();
 
 test.describe("User registration API test", () => {
   let uniqueId = randomUUID();
+  let admissionId: string;
+
+  test.afterEach(async ({ adminApiContext }) => {
+    await adminApiContext.delete(`/api/admin/user-admissions/${admissionId}`);
+  });
+
   test("Duplicate email when new user register", async ({ request }) => {
     const res = await request.post("/api/register", {
       form: {
@@ -14,6 +20,7 @@ test.describe("User registration API test", () => {
         password: "newpassword",
       },
     });
+
     expect(res.status()).toBe(409);
   });
 
@@ -26,6 +33,9 @@ test.describe("User registration API test", () => {
         password: "1234567", // this should not allow 8 characters below
       },
     });
+
+    const data = await res.json();
+    admissionId = data.user.admission_id;
     expect(res.status()).toBe(400);
   });
 
@@ -38,6 +48,7 @@ test.describe("User registration API test", () => {
         password: "12345678",
       },
     });
+
     expect(res.status()).toBe(400);
   });
 
@@ -50,6 +61,7 @@ test.describe("User registration API test", () => {
         password: "",
       },
     });
+
     expect(res.status()).toBe(400);
   });
 
@@ -62,6 +74,7 @@ test.describe("User registration API test", () => {
         password: "12345678",
       },
     });
+
     expect(res.status()).toBe(400);
   });
 
@@ -74,6 +87,9 @@ test.describe("User registration API test", () => {
         password: "12345678",
       },
     });
-    expect(res.status()).toBe(200);
+
+    const data = await res.json();
+    admissionId = data.user.admission_id;
+    expect(res.ok()).toBeTruthy();
   });
 });
