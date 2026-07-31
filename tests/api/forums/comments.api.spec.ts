@@ -41,8 +41,6 @@ test.describe.serial("Forum comments API tests", () => {
     const commentData = await res.json();
     parentCommentId = commentData.data.toComment.commentId;
     authorId = commentData.data.toComment.authorId;
-    console.log("parent comment: ", parentCommentId);
-    console.log("pathor id: ", authorId);
     expect(res.status()).toBe(200);
   });
 
