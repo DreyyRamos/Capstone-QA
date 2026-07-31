@@ -1,0 +1,79 @@
+import { test, expect } from "@playwright/test";
+import dotenv from "dotenv";
+import { randomUUID } from "crypto";
+dotenv.config();
+
+test.describe("User registration API test", () => {
+  let uniqueId = randomUUID();
+  test("Duplicate email when new user register", async ({ request }) => {
+    const res = await request.post("/api/register", {
+      form: {
+        user_email: process.env.STUDENT_EMAIL!,
+        firstName: "New",
+        lastName: "User",
+        password: "newpassword",
+      },
+    });
+    expect(res.status()).toBe(409);
+  });
+
+  test.fail("Password not enough character", async ({ request }) => {
+    const res = await request.post("/api/register", {
+      form: {
+        user_email: `definitelynewuser+${uniqueId}@email.com`,
+        firstName: "New",
+        lastName: "User",
+        password: "1234567", // this should not allow 8 characters below
+      },
+    });
+    expect(res.status()).toBe(400);
+  });
+
+  test("User did not provide email", async ({ request }) => {
+    const res = await request.post("/api/register", {
+      form: {
+        user_email: "",
+        firstName: "New",
+        lastName: "User",
+        password: "12345678",
+      },
+    });
+    expect(res.status()).toBe(400);
+  });
+
+  test("User did not provide password", async ({ request }) => {
+    const res = await request.post("/api/register", {
+      form: {
+        user_email: `definitelynewuser+${uniqueId}@email.com`,
+        firstName: "New",
+        lastName: "User",
+        password: "",
+      },
+    });
+    expect(res.status()).toBe(400);
+  });
+
+  test("User did not provide first name", async ({ request }) => {
+    const res = await request.post("/api/register", {
+      form: {
+        user_email: `definitelynewuser+${uniqueId}@email.com`,
+        firstName: "",
+        lastName: "User",
+        password: "12345678",
+      },
+    });
+    expect(res.status()).toBe(400);
+  });
+
+  test("Valid user registration", async ({ request }) => {
+    const res = await request.post("/api/register", {
+      form: {
+        user_email: `definitelynewuser+${uniqueId}@email.com`,
+        firstName: "New",
+        lastName: "User",
+        password: "12345678",
+      },
+    });
+    expect(res.status()).toBe(200);
+  });
+});

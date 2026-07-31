@@ -36,4 +36,34 @@ test.describe("Auth boundary tests", () => {
     const res = await studentApiContext.get("/api/admin/user-admissions");
     expect(res.status()).toBe(403);
   });
+
+  test("Editor cannot access admin only endpoints", async ({
+    editorApiContext,
+  }) => {
+    const res = await editorApiContext.get("/api/admin/user-admissions");
+    expect(res.status()).toBe(403);
+  });
+
+  test("Editor cannot access moderator only endpoints", async ({
+    editorApiContext,
+  }) => {
+    const res = await editorApiContext.get("/api/moderator/fetch-users");
+    expect(res.status()).toBe(403);
+  });
+
+  test("Moderator cannot access admin only endpoints", async ({
+    moderatorApiContext,
+  }) => {
+    const res = await moderatorApiContext.get("/api/admin/user-admissions");
+    expect(res.status()).toBe(403);
+  });
+
+  test("Moderator cannot access editor only endpoints", async ({
+    moderatorApiContext,
+  }) => {
+    const res = await moderatorApiContext.get(
+      "/api/publications/editor/toReview",
+    );
+    expect(res.status()).toBe(403);
+  });
 });
