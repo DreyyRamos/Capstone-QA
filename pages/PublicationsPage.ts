@@ -9,11 +9,18 @@ export default class PublicationsPage extends BasePage {
   readonly publishBtn: Locator;
   readonly submitPublicationBtn: Locator;
   readonly likeBtn: Locator;
-  readonly commentTxtbox: Locator;
   readonly reportBtn: Locator;
   readonly likeCommentBtn: Locator;
   readonly reportCommentBtn: Locator;
   readonly updateBtn: Locator;
+  readonly commentTxtbox: Locator;
+  readonly postCommentBtn: Locator;
+  readonly replyToCommentBtn: Locator;
+  readonly replyTxtBox: Locator;
+  readonly submitReplyBtn: Locator;
+  readonly replyToReplyToCommentBtn: Locator;
+  readonly replyToReplyTxtBox: Locator;
+  readonly submitReplyToReplyBtn: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -28,9 +35,6 @@ export default class PublicationsPage extends BasePage {
       name: "Submit Publication",
     });
     this.likeBtn = page.getByTestId("publication-like-button-button-1");
-    this.commentTxtbox = page.getByRole("textbox", {
-      name: "Share your thoughts about",
-    });
     this.reportBtn = page.getByTestId("page-button-2");
     this.likeCommentBtn = page
       .getByTestId("publication-comment-like-button-button-1")
@@ -39,6 +43,22 @@ export default class PublicationsPage extends BasePage {
       .getByTestId("publication-comments-button-5")
       .first();
     this.updateBtn = page.getByRole("button", { name: "Update" });
+    this.commentTxtbox = page.getByRole("textbox", {
+      name: "Share your thoughts about",
+    });
+    this.postCommentBtn = page.getByRole("button", { name: "Post Comment" });
+    this.replyToCommentBtn = page.getByRole("button", { name: "Reply" });
+    this.replyTxtBox = page.getByRole("textbox", {
+      name: "Write your reply...",
+    });
+    this.submitReplyBtn = page.getByRole("button", { name: "Reply" });
+    this.replyToReplyToCommentBtn = page.locator(
+      "#publication-comments-button-11",
+    );
+    this.replyToReplyTxtBox = page.getByPlaceholder("Write your reply...");
+    this.submitReplyToReplyBtn = page.getByTestId(
+      "publication-comments-button-14",
+    );
   }
 
   async gotoCreate() {
@@ -69,6 +89,10 @@ export default class PublicationsPage extends BasePage {
     }
 
     return pubId;
+  }
+
+  async gotoSpecificPub(pubId: string) {
+    await this.navigate(`/publications/${pubId}`);
   }
 
   async assertMessage(msg: string) {
@@ -122,5 +146,40 @@ export default class PublicationsPage extends BasePage {
 
   async assertUpdatedPubsMsg() {
     await expect(this.page.getByText("Updated successfully!")).toBeVisible();
+  }
+
+  async postComment() {
+    await this.commentTxtbox.fill("This is a parent comment");
+    await this.postCommentBtn.click();
+  }
+
+  async assertParentComment() {
+    await expect(
+      this.page.getByText("Comment added successfully!"),
+    ).toBeVisible();
+  }
+
+  async postReply() {
+    await this.replyToCommentBtn.click();
+    await this.replyTxtBox.fill("This is a reply to comment");
+    await this.submitReplyBtn.click();
+  }
+
+  async assertReply() {
+    await expect(
+      this.page.getByText("Comment added successfully!"),
+    ).toBeVisible();
+  }
+
+  async postReplyToReply() {
+    await this.replyToReplyToCommentBtn.click();
+    await this.replyToReplyTxtBox.fill("This is a 3rd level reply");
+    await this.submitReplyToReplyBtn.click();
+  }
+
+  async assertReplyToReply() {
+    await expect(
+      this.page.getByText("Comment added successfully!"),
+    ).toBeVisible();
   }
 }
