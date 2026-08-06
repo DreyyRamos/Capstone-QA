@@ -21,6 +21,14 @@ export default class ForumPage extends BasePage {
   readonly tagsTxtBox: Locator;
   readonly addTagsBtn: Locator;
   readonly submitForumBtn: Locator;
+  readonly commentTxtbox: Locator;
+  readonly postCommentBtn: Locator;
+  readonly replyToCommentBtn: Locator;
+  readonly replyTxtBox: Locator;
+  readonly submitReplyBtn: Locator;
+  readonly replyToReplyToCommentBtn: Locator;
+  readonly replyToReplyTxtBox: Locator;
+  readonly submitReplyToReplyBtn: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -31,6 +39,23 @@ export default class ForumPage extends BasePage {
     this.tagsTxtBox = page.getByRole("textbox", { name: "Add tag..." });
     this.addTagsBtn = page.getByTestId("page-button-1");
     this.submitForumBtn = page.getByTestId("page-button-3");
+
+    this.commentTxtbox = page.getByRole("textbox", {
+      name: "Share your thoughts or advice",
+    });
+    this.postCommentBtn = page.getByRole("button", { name: "Post Reply" });
+
+    this.replyToCommentBtn = page.locator("#comment-list-button-4");
+    this.replyTxtBox = page.getByRole("textbox", {
+      name: "Write your reply...",
+    });
+    this.submitReplyBtn = page.getByRole("button", { name: "Submit Reply" });
+
+    this.replyToReplyToCommentBtn = page.locator("#comment-list-button-11");
+    this.replyToReplyTxtBox = page.getByPlaceholder("Write your reply...");
+    this.submitReplyToReplyBtn = page.getByRole("button", {
+      name: "Submit Reply",
+    });
   }
 
   async goto() {
@@ -39,6 +64,10 @@ export default class ForumPage extends BasePage {
 
   async gotoCreateForum() {
     await this.navigate("/forum/create");
+  }
+
+  async gotoSpecificForum(forumId: string) {
+    await this.navigate(`/forum/topic/${forumId}`);
   }
 
   getCategoryOption(opt: CategoryOption): Locator {
@@ -99,6 +128,41 @@ export default class ForumPage extends BasePage {
   async assertUpdatedForum() {
     await expect(
       this.page.getByText("Forum updated successfully!"),
+    ).toBeVisible();
+  }
+
+  async postComment() {
+    await this.commentTxtbox.fill("This is a parent comment");
+    await this.postCommentBtn.click();
+  }
+
+  async assertParentComment() {
+    await expect(
+      this.page.getByText("Comment added successfully!"),
+    ).toBeVisible();
+  }
+
+  async postReply() {
+    await this.replyToCommentBtn.click();
+    await this.replyTxtBox.fill("This is a reply to comment");
+    await this.submitReplyBtn.click();
+  }
+
+  async assertReply() {
+    await expect(
+      this.page.getByText("Comment added successfully!"),
+    ).toBeVisible();
+  }
+
+  async postReplyToReply() {
+    await this.replyToReplyToCommentBtn.click();
+    await this.replyToReplyTxtBox.fill("This is a 3rd level reply");
+    await this.submitReplyToReplyBtn.click();
+  }
+
+  async assertReplyToReply() {
+    await expect(
+      this.page.getByText("Comment added successfully!"),
     ).toBeVisible();
   }
 }
